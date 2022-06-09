@@ -21,5 +21,7 @@ public interface GraphicObject {
 
 	boolean contains(Point2D p);
 
+	double getArea();
+
 	String getType();
 }

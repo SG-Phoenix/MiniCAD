@@ -1,25 +1,35 @@
 package is.interpreter.scale;
 
 import is.interpreter.CommandIF;
+import is.manager.ObjectManager;
+import is.shapes.model.AbstractGraphicObject;
 
 public class Scale implements CommandIF {
 
     private String objID;
-    private double scale;
+    private double factor;
 
-    public Scale(String objID, double scale) {
+    public Scale(String objID, double factor) {
         this.objID = objID;
-        this.scale = scale;
+        this.factor = factor;
     }
 
     @Override
-    public void interpreta() {
+    public String interpreta(ObjectManager manager) {
 
+        AbstractGraphicObject object = manager.getManagedObjects().get(objID);
+        if(object != null)
+        {
+            object.scale(factor);
+        }
+        return null;
     }
 
     @Override
     public String toString()
     {
-        return "Scale["+objID+" , "+scale+"]";
+        return "Scale["+objID+" , "+ factor +"]";
     }
+
+
 }

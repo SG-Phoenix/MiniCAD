@@ -34,6 +34,11 @@ public class ImageObject extends AbstractGraphicObject {
 	}
 
 	@Override
+	public double getArea() {
+		return (factor*image.getWidth(null))*(factor*image.getHeight(null));
+	}
+
+	@Override
 	public void moveTo(Point2D p) {
 		position.setLocation(p);
 		notifyListeners(new GraphicEvent(this));

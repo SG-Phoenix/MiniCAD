@@ -1,6 +1,8 @@
 package is.interpreter.area;
 
 import is.interpreter.Symbols;
+import is.manager.ObjectManager;
+import is.shapes.model.AbstractGraphicObject;
 
 public class AreaType extends Area {
 
@@ -11,8 +13,15 @@ public class AreaType extends Area {
     }
 
     @Override
-    public void interpreta() {
+    public String interpreta(ObjectManager manager) {
+        double totArea = 0;
+        for(AbstractGraphicObject object : manager.getManagedObjects().values())
+        {
+            if(object.getType().equals(type.name()))
+                totArea += object.getArea();
+        }
 
+        return String.valueOf(totArea);
     }
 
     @Override
@@ -20,4 +29,6 @@ public class AreaType extends Area {
     {
         return "AreaType["+type.toString()+"]";
     }
+
+
 }

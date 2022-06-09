@@ -55,6 +55,11 @@ public class CircleObject extends AbstractGraphicObject {
 	}
 
 	@Override
+	public double getArea() {
+		return radius*2*Math.PI;
+	}
+
+	@Override
 	public CircleObject clone() {
 		CircleObject cloned = (CircleObject) super.clone();
 		cloned.position = (Point2D) position.clone();

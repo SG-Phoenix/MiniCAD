@@ -31,6 +31,11 @@ public class RectangleObject extends AbstractGraphicObject {
 	}
 
 	@Override
+	public double getArea() {
+		return dim.getHeight()*dim.getWidth();
+	}
+
+	@Override
 	public void moveTo(Point2D p) {
 		position.setLocation(p);
 		notifyListeners(new GraphicEvent(this));

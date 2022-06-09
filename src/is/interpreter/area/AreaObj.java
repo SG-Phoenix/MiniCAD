@@ -1,5 +1,8 @@
 package is.interpreter.area;
 
+import is.manager.ObjectManager;
+import is.shapes.model.AbstractGraphicObject;
+
 public class AreaObj extends Area {
 
     private String objID;
@@ -9,8 +12,12 @@ public class AreaObj extends Area {
     }
 
     @Override
-    public void interpreta() {
+    public String interpreta(ObjectManager manager) {
+        AbstractGraphicObject object = manager.getManagedObjects().get(objID);
+        if(object != null)
+            return String.valueOf(object.getArea());
 
+        return "Object " + objID + " not found";
     }
 
     @Override
@@ -18,4 +25,6 @@ public class AreaObj extends Area {
     {
         return "AreaObj["+objID+"]";
     }
+
+
 }

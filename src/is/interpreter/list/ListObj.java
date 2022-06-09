@@ -1,5 +1,7 @@
 package is.interpreter.list;
 
+import is.manager.ObjectManager;
+
 public class ListObj extends List
 {
     private String objID;
@@ -9,8 +11,8 @@ public class ListObj extends List
     }
 
     @Override
-    public void interpreta() {
-
+    public String interpreta(ObjectManager manager) {
+        return manager.getManagedObjects().get(objID).toString();
     }
 
     @Override
@@ -18,4 +20,6 @@ public class ListObj extends List
     {
         return "ListObj["+objID+"]";
     }
+
+
 }

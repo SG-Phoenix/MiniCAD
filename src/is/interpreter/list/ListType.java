@@ -1,6 +1,8 @@
 package is.interpreter.list;
 
 import is.interpreter.Symbols;
+import is.manager.ObjectManager;
+import is.shapes.model.AbstractGraphicObject;
 
 public class ListType extends List {
 
@@ -10,9 +12,20 @@ public class ListType extends List {
         this.type = type;
     }
 
-    @Override
-    public void interpreta() {
 
+    @Override
+    public String interpreta(ObjectManager manager) {
+        StringBuilder sb = new StringBuilder();
+        for(AbstractGraphicObject object : manager.getManagedObjects().values())
+        {
+            if(object.getType().equals(type.name()))
+            {
+                sb.append(object);
+                sb.append("\n");
+            }
+        }
+
+        return sb.toString();
     }
 
     @Override
@@ -20,4 +33,6 @@ public class ListType extends List {
     {
         return "ListType["+type.toString()+"]";
     }
+
+
 }

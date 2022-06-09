@@ -1,6 +1,8 @@
 package is.interpreter.ungroup;
 
 import is.interpreter.CommandIF;
+import is.manager.ObjectManager;
+import is.shapes.model.AbstractGraphicObject;
 
 public class Ungroup implements CommandIF {
 
@@ -11,7 +13,16 @@ public class Ungroup implements CommandIF {
     }
 
     @Override
-    public void interpreta() {
+    public String interpreta(ObjectManager manager) {
+        AbstractGraphicObject object = manager.getManagedObjects().get(objID);
+
+        if(object.getType().equals("Group"))
+        {
+            manager.getManagedObjects().remove(objID);
+            return "Group deleted";
+        }
+
+        return "Group not found";
 
     }
 
@@ -20,4 +31,6 @@ public class Ungroup implements CommandIF {
     {
         return "Ungroup["+objID+"]";
     }
+
+
 }
