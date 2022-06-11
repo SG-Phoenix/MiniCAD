@@ -5,6 +5,8 @@ import is.interpreter.Position;
 import is.interpreter.typeconstr.TypeConstr;
 import is.manager.ObjectManager;
 import is.shapes.model.AbstractGraphicObject;
+import is.shapes.model.GraphicObject;
+import is.shapes.view.GraphicObjectPanel;
 
 import java.awt.geom.Point2D;
 
@@ -19,9 +21,9 @@ public class Create implements CommandIF {
     }
 
     @Override
-    public String interpreta(ObjectManager manager) {
-        AbstractGraphicObject newObj = element.create(pos);
-        return manager.addObject(newObj);
+    public String interpreta(ObjectManager context) {
+        GraphicObject newObj = element.create(pos);
+        return context.addObject(newObj);
     }
 
     @Override
@@ -31,4 +33,13 @@ public class Create implements CommandIF {
     }
 
 
+    @Override
+    public boolean doIt() {
+        return false;
+    }
+
+    @Override
+    public boolean undoIt() {
+        return false;
+    }
 }

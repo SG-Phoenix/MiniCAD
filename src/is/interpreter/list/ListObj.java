@@ -1,6 +1,8 @@
 package is.interpreter.list;
 
 import is.manager.ObjectManager;
+import is.shapes.model.GraphicObject;
+import is.shapes.view.GraphicObjectPanel;
 
 public class ListObj extends List
 {
@@ -11,8 +13,12 @@ public class ListObj extends List
     }
 
     @Override
-    public String interpreta(ObjectManager manager) {
-        return manager.getManagedObjects().get(objID).toString();
+    public String interpreta(ObjectManager context) {
+
+        GraphicObject object = context.getObject(objID);
+        if( object != null)
+            return object.toString();
+        return "Object " + objID + " not found";
     }
 
     @Override

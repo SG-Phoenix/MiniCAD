@@ -1,5 +1,7 @@
 package is.shapes.view;
 
+import is.interpreter.Parser;
+import is.manager.ObjectManager;
 import is.shapes.model.GraphicEvent;
 import is.shapes.model.GraphicObject;
 import is.shapes.model.GraphicObjectListener;
@@ -27,12 +29,24 @@ public class GraphicObjectPanel extends JComponent implements GraphicObjectListe
 	 * @directed true
 	 */
 
-	private List<GraphicObject> objects = new LinkedList<>();
+	private ObjectManager manager;
 
-	private Map<Class<? extends GraphicObject>, GraphicObjectView> viewMap = new HashMap<>();
+	public GraphicObjectPanel(ObjectManager manager) {
 
-	public GraphicObjectPanel() {
+		this.manager = manager;
+		manager.addGraphicObjectListener(this);
 		setBackground(Color.WHITE);
+	}
+
+	public void setObjectManager(ObjectManager manager)
+	{
+		if(manager != null)
+		{
+			this.manager.removeGraphicObjectListener(this);
+			this.manager = manager;
+			this.manager.addGraphicObjectListener(this);
+			repaint();
+		}
 	}
 
 	@Override
@@ -43,10 +57,10 @@ public class GraphicObjectPanel extends JComponent implements GraphicObjectListe
 	}
 
 	
-	public GraphicObject getGraphicObjectAt(Point2D p) {
-		for (GraphicObject g : objects) {
-			if (g.contains(p))
-				return g;
+	public String getGraphicObjectAt(Point2D p) {
+		for (Map.Entry<String, GraphicObject> g : manager.getManagedObjects().entrySet()) {
+			if (g.getValue().contains(p))
+				return g.getKey();
 		}
 		return null;
 	}
@@ -56,7 +70,7 @@ public class GraphicObjectPanel extends JComponent implements GraphicObjectListe
 		Dimension ps = super.getPreferredSize();
 		double x = ps.getWidth();
 		double y = ps.getHeight();
-		for (GraphicObject go : objects) {
+		for (GraphicObject go : manager.getManagedObjects().values()) {
 			double nx = go.getPosition().getX() + go.getDimension().getWidth() / 2;
 			double ny = go.getPosition().getY() + go.getDimension().getHeight() / 2;
 			if (nx > x)
@@ -71,30 +85,11 @@ public class GraphicObjectPanel extends JComponent implements GraphicObjectListe
 	protected void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
-
 		Graphics2D g2 = (Graphics2D) g;
-		for (GraphicObject go : objects) {
-			GraphicObjectView view = viewMap.get(go.getClass());
-			view.drawGraphicObject(go, g2);
+		for (GraphicObject go : manager.getManagedObjects().values()) {
+			go.getView().drawGraphicObject(go, g2);
 		}
 
 	}
 
-	public void add(GraphicObject go) {
-		objects.add(go);
-		go.addGraphicObjectListener(this);
-		repaint();
-	}
-
-	public void remove(GraphicObject go) {
-		if (objects.remove(go)) {
-			repaint();
-			go.removeGraphicObjectListener(this);
-		}
-
-	}
-
-	public void installView(Class<? extends GraphicObject> clazz, GraphicObjectView view) {
-		viewMap.put(clazz, view);
-	}
 }

@@ -1,5 +1,7 @@
 package is.interpreter;
 
-public interface CommandIF extends GrammarElement {
+import is.command.Command;
+
+public interface CommandIF extends GrammarElement, Command {
 
 }

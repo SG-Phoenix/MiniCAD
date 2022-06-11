@@ -3,6 +3,8 @@ package is.interpreter.ungroup;
 import is.interpreter.CommandIF;
 import is.manager.ObjectManager;
 import is.shapes.model.AbstractGraphicObject;
+import is.shapes.model.GraphicObject;
+import is.shapes.view.GraphicObjectPanel;
 
 public class Ungroup implements CommandIF {
 
@@ -13,14 +15,12 @@ public class Ungroup implements CommandIF {
     }
 
     @Override
-    public String interpreta(ObjectManager manager) {
-        AbstractGraphicObject object = manager.getManagedObjects().get(objID);
+    public String interpreta(ObjectManager context) {
 
-        if(object.getType().equals("Group"))
-        {
-            manager.getManagedObjects().remove(objID);
+        GraphicObject object = context.getObject(objID);
+
+        if(context.ungroupObject(objID))
             return "Group deleted";
-        }
 
         return "Group not found";
 

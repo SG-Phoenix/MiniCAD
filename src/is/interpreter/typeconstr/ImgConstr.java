@@ -24,6 +24,6 @@ public class ImgConstr extends TypeConstr {
 
     @Override
     public AbstractGraphicObject create(Point2D point) {
-        return new ImageObject(new ImageIcon(path), point);
+        return new ImageObject(new ImageIcon(ImageObject.class.getResource(path)), point);
     }
 }

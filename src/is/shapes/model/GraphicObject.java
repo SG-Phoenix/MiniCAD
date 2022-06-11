@@ -1,5 +1,7 @@
 package is.shapes.model;
 
+import is.shapes.view.GraphicObjectView;
+
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
@@ -23,5 +25,9 @@ public interface GraphicObject {
 
 	double getArea();
 
+	double getPerimeter();
+
 	String getType();
+
+	GraphicObjectView getView();
 }

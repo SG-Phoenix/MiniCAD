@@ -1,6 +1,7 @@
 package is.interpreter;
 
 import is.manager.ObjectManager;
+import is.shapes.view.GraphicObjectPanel;
 
 public class Command implements GrammarElement {
 
@@ -22,7 +23,7 @@ public class Command implements GrammarElement {
     }
 
     @Override
-    public String interpreta(ObjectManager manager) {
-        return command.interpreta(manager);
+    public String interpreta(ObjectManager context) {
+        return command.interpreta(context);
     }
 }

@@ -1,6 +1,7 @@
 package is.shapes.controller;
 
 import is.command.CommandHandler;
+import is.manager.ObjectManager;
 import is.shapes.model.GraphicObject;
 import is.shapes.specificcommand.MoveCommand;
 import is.shapes.specificcommand.ZoomCommand;
@@ -21,7 +22,8 @@ public class GraphicObjectController extends JPanel {
 
 	private CommandHandler cmdHandler;
 
-	private GraphicObject subject;
+	private ObjectManager manager;
+	private String subject;
 
 	private JPanel grid;
 
@@ -31,27 +33,27 @@ public class GraphicObjectController extends JPanel {
 
 	static final double zoom_factor = 0.1;
 
-	public void setControlledObject(GraphicObject go) {
+	public void setControlledObject(String go) {
 		subject = go;
 	}
 
-	public GraphicObjectController(CommandHandler cmdH) {
-		this(null, cmdH);
+	public GraphicObjectController(CommandHandler cmdH, ObjectManager manager) {
+		this(null, cmdH, manager);
 	}
 
-	public GraphicObjectController(GraphicObject go, CommandHandler cmdH) {
+	public GraphicObjectController(String go, CommandHandler cmdH, ObjectManager man) {
 		cmdHandler = cmdH;
 		subject = go;
-
+		manager = man;
 		grid = new JPanel(new GridLayout(3, 3));
 		zoom = new JPanel(new GridLayout(1, 2));
 
 		JButton minus = new JButton("-");
 
 		minus.addActionListener(e -> {
-			if (subject != null) {
+			if (subject != null || manager.getObject(subject) == null) {
 				// subject.scale(1.0-zoom_factor);
-				cmdHandler.handle(new ZoomCommand(subject, 1.0 - zoom_factor));
+				cmdHandler.handle(new ZoomCommand(manager.getObject(subject), 1.0 - zoom_factor));
 			}
 		});
 
@@ -60,9 +62,9 @@ public class GraphicObjectController extends JPanel {
 		JButton plus = new JButton("+");
 		plus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (subject != null) {
+				if (subject != null || manager.getObject(subject) == null) {
 					// subject.scale(1.0 + zoom_factor);
-					cmdHandler.handle(new ZoomCommand(subject, 1.0 + zoom_factor));
+					cmdHandler.handle(new ZoomCommand(manager.getObject(subject), 1.0 + zoom_factor));
 				}
 			}
 		});
@@ -73,11 +75,11 @@ public class GraphicObjectController extends JPanel {
 
 		nw.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (subject == null)
+				if (subject == null || manager.getObject(subject) == null)
 					return;
-				Point2D p = subject.getPosition();
+				Point2D p = manager.getObject(subject).getPosition();
 				// subject.moveTo(p.getX() - offset, p.getY() - offset);
-				cmdHandler.handle(new MoveCommand(subject, new Point2D.Double(p.getX() - offset, p.getY() - offset)));
+				cmdHandler.handle(new MoveCommand(manager.getObject(subject), new Point2D.Double(p.getX() - offset, p.getY() - offset)));
 			}
 		});
 		grid.add(nw);
@@ -85,11 +87,11 @@ public class GraphicObjectController extends JPanel {
 		JButton n = new JButton("|");
 		n.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (subject == null)
+				if (subject == null || manager.getObject(subject) == null)
 					return;
-				Point2D p = subject.getPosition();
+				Point2D p = manager.getObject(subject).getPosition();
 				// subject.moveTo(p.getX(), p.getY() - offset);
-				cmdHandler.handle(new MoveCommand(subject, new Point2D.Double(p.getX(), p.getY() - offset)));
+				cmdHandler.handle(new MoveCommand(manager.getObject(subject), new Point2D.Double(p.getX(), p.getY() - offset)));
 			}
 		});
 
@@ -98,11 +100,11 @@ public class GraphicObjectController extends JPanel {
 		JButton ne = new JButton("/");
 		ne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (subject == null)
+				if (subject == null || manager.getObject(subject) == null)
 					return;
-				Point2D p = subject.getPosition();
+				Point2D p = manager.getObject(subject).getPosition();
 				// subject.moveTo(p.getX() + offset, p.getY() - offset);
-				cmdHandler.handle(new MoveCommand(subject, new Point2D.Double(p.getX() + offset, p.getY() - offset)));
+				cmdHandler.handle(new MoveCommand(manager.getObject(subject), new Point2D.Double(p.getX() + offset, p.getY() - offset)));
 
 			}
 		});
@@ -112,11 +114,11 @@ public class GraphicObjectController extends JPanel {
 		JButton w = new JButton("<-");
 		w.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (subject == null)
+				if (subject == null || manager.getObject(subject) == null)
 					return;
-				Point2D p = subject.getPosition();
+				Point2D p = manager.getObject(subject).getPosition();
 				// subject.moveTo(p.getX() - offset, p.getY());
-				cmdHandler.handle(new MoveCommand(subject, new Point2D.Double(p.getX() - offset, p.getY())));
+				cmdHandler.handle(new MoveCommand(manager.getObject(subject), new Point2D.Double(p.getX() - offset, p.getY())));
 			}
 		});
 
@@ -127,11 +129,11 @@ public class GraphicObjectController extends JPanel {
 		JButton e = new JButton("->");
 		e.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (subject == null)
+				if (subject == null || manager.getObject(subject) == null)
 					return;
-				Point2D p = subject.getPosition();
+				Point2D p = manager.getObject(subject).getPosition();
 				// subject.moveTo(p.getX() + offset, p.getY());
-				cmdHandler.handle(new MoveCommand(subject, new Point2D.Double(p.getX() + offset, p.getY())));
+				cmdHandler.handle(new MoveCommand(manager.getObject(subject), new Point2D.Double(p.getX() + offset, p.getY())));
 			}
 		});
 
@@ -141,11 +143,11 @@ public class GraphicObjectController extends JPanel {
 
 		sw.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (subject == null)
+				if (subject == null || manager.getObject(subject) == null)
 					return;
-				Point2D p = subject.getPosition();
+				Point2D p = manager.getObject(subject).getPosition();
 				// subject.moveTo(p.getX() - offset, p.getY() + offset);
-				cmdHandler.handle(new MoveCommand(subject, new Point2D.Double(p.getX() - offset, p.getY() + offset)));
+				cmdHandler.handle(new MoveCommand(manager.getObject(subject), new Point2D.Double(p.getX() - offset, p.getY() + offset)));
 			}
 		});
 		grid.add(sw);
@@ -153,11 +155,11 @@ public class GraphicObjectController extends JPanel {
 		JButton s = new JButton("|");
 		s.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (subject == null)
+				if (subject == null || manager.getObject(subject) == null)
 					return;
-				Point2D p = subject.getPosition();
+				Point2D p = manager.getObject(subject).getPosition();
 				// subject.moveTo(p.getX(), p.getY() + offset);
-				cmdHandler.handle(new MoveCommand(subject, new Point2D.Double(p.getX(), p.getY() + offset)));
+				cmdHandler.handle(new MoveCommand(manager.getObject(subject), new Point2D.Double(p.getX(), p.getY() + offset)));
 			}
 		});
 
@@ -166,11 +168,11 @@ public class GraphicObjectController extends JPanel {
 		JButton se = new JButton("\\");
 		se.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (subject == null)
+				if (subject == null || manager.getObject(subject) == null)
 					return;
-				Point2D p = subject.getPosition();
+				Point2D p = manager.getObject(subject).getPosition();
 				// subject.moveTo(p.getX() + offset, p.getY() + offset);
-				cmdHandler.handle(new MoveCommand(subject, new Point2D.Double(p.getX() + offset, p.getY() + offset)));
+				cmdHandler.handle(new MoveCommand(manager.getObject(subject), new Point2D.Double(p.getX() + offset, p.getY() + offset)));
 			}
 		});
 		grid.add(se);

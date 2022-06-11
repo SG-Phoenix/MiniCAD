@@ -2,6 +2,8 @@ package is.interpreter.area;
 
 import is.manager.ObjectManager;
 import is.shapes.model.AbstractGraphicObject;
+import is.shapes.model.GraphicObject;
+import is.shapes.view.GraphicObjectPanel;
 
 public class AreaObj extends Area {
 
@@ -12,8 +14,8 @@ public class AreaObj extends Area {
     }
 
     @Override
-    public String interpreta(ObjectManager manager) {
-        AbstractGraphicObject object = manager.getManagedObjects().get(objID);
+    public String interpreta(ObjectManager context) {
+        GraphicObject object = context.getObject(objID);
         if(object != null)
             return String.valueOf(object.getArea());
 

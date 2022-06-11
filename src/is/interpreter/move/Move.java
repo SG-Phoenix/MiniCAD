@@ -3,6 +3,8 @@ package is.interpreter.move;
 
 import is.interpreter.CommandIF;
 import is.manager.ObjectManager;
+import is.shapes.model.GraphicObject;
+import is.shapes.view.GraphicObjectPanel;
 
 import java.awt.geom.Point2D;
 
@@ -19,20 +21,21 @@ public class Move implements CommandIF {
     }
 
     @Override
-    public String interpreta(ObjectManager manager) {
+    public String interpreta(ObjectManager context) {
         Point2D newPosition;
-        if(!manager.getManagedObjects().containsKey(objID))
+        GraphicObject object = context.getObject(objID);
+        if(object == null)
             return "Object "+objID+" not found";
 
         if(isRelative)
         {
-            Point2D oldPosition = manager.getManagedObjects().get(objID).getPosition();
+            Point2D oldPosition = object.getPosition();
             newPosition = new Point2D.Double(oldPosition.getX()+pos.getX(),oldPosition.getY()+pos.getY());
         }
         else
             newPosition = pos;
 
-        manager.moveObject(objID,newPosition);
+        object.moveTo(newPosition);
 
         return "Object "+objID+" moved to ( "+newPosition.getX()+" , "+newPosition.getY()+" )";
 

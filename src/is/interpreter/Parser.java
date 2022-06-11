@@ -26,6 +26,8 @@ import java.io.Reader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Parser {
 
@@ -33,13 +35,17 @@ public class Parser {
     private Symbols nextSymbol;
     private Command command;
 
-    public Parser(Reader input)
+    public Parser()
     {
-        analyzer = new Analyzer(input);
+
+    }
+
+    public void setInput(Reader in)
+    {
+        analyzer = new Analyzer(in);
         this.command = command();
         atteso(Symbols.EOF);
     }
-
     private Command command()
     {
         nextSymbol = analyzer.getSymbol();
@@ -179,7 +185,7 @@ public class Parser {
         if ( nextSymbol == Symbols.VALUE)
             return new ListObj(analyzer.getString());
         if ( nextSymbol == Symbols.CIRCLE || nextSymbol == Symbols.IMG || nextSymbol == Symbols.RECTANGLE)
-            return new ListType(nextSymbol);
+            return new ListType(nextSymbol.name());
 
         throw new SyntaxException("objID/type/all/groups atteso");
     }
@@ -187,7 +193,7 @@ public class Parser {
     private Group group()
     {
         atteso(Symbols.VALUE);
-        java.util.List<String> objList = new ArrayList<>();
+        Set<String> objList = new HashSet<>();
         objList.add(analyzer.getString());
 
         nextSymbol = analyzer.getSymbol();
@@ -217,7 +223,7 @@ public class Parser {
         if ( nextSymbol == Symbols.CIRCLE ||
              nextSymbol == Symbols.RECTANGLE ||
              nextSymbol == Symbols.IMG)
-            return new AreaType(nextSymbol);
+            return new AreaType(nextSymbol.name());
         else
             throw new SyntaxException("objID/type/all atteso");
     }
@@ -233,7 +239,7 @@ public class Parser {
              nextSymbol == Symbols.RECTANGLE ||
              nextSymbol == Symbols.IMG
             )
-            return new PerimeterType(nextSymbol);
+            return new PerimeterType(nextSymbol.name());
         else
             throw new SyntaxException("objID/type/all atteso");
     }

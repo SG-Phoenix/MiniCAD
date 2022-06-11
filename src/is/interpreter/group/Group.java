@@ -2,38 +2,22 @@ package is.interpreter.group;
 
 import is.interpreter.CommandIF;
 import is.manager.ObjectManager;
-import is.shapes.model.AbstractGraphicObject;
-import is.shapes.model.GroupObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
+import java.util.*;
 
 public class Group implements CommandIF {
 
-    private java.util.List<String> keyList;
+    private Set<String> keyList;
 
-    public Group(java.util.List keyList) {
+    public Group(Set keyList) {
         this.keyList = keyList;
     }
 
     @Override
-    public String interpreta(ObjectManager manager) {
+    public String interpreta(ObjectManager context) {
 
-        HashMap<String, AbstractGraphicObject> objMap = manager.getManagedObjects();
-        List<AbstractGraphicObject> objList = new ArrayList<>();
-        for(String key : keyList)
-        {
-            AbstractGraphicObject object = objMap.get(key);
-            if( object == null )
-                return "Object " + key + " not found";
-
-            objList.add(object);
-        }
-
-        GroupObject group = new GroupObject(objList);
-        String key = manager.addObject(group);
-        return "Group " + key + " created";
+        return context.groupObject(keyList);
     }
 
     @Override

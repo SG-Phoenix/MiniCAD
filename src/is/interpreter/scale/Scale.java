@@ -3,6 +3,8 @@ package is.interpreter.scale;
 import is.interpreter.CommandIF;
 import is.manager.ObjectManager;
 import is.shapes.model.AbstractGraphicObject;
+import is.shapes.model.GraphicObject;
+import is.shapes.view.GraphicObjectPanel;
 
 public class Scale implements CommandIF {
 
@@ -15,14 +17,15 @@ public class Scale implements CommandIF {
     }
 
     @Override
-    public String interpreta(ObjectManager manager) {
+    public String interpreta(ObjectManager context) {
 
-        AbstractGraphicObject object = manager.getManagedObjects().get(objID);
+        GraphicObject object = context.getObject(objID);
         if(object != null)
         {
             object.scale(factor);
+            return "Object "+ objID + " scaled";
         }
-        return null;
+        return "Object "+ objID + " not found";
     }
 
     @Override

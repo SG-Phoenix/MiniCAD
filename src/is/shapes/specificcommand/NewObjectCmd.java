@@ -1,34 +1,41 @@
 package is.shapes.specificcommand;
 
 import is.command.Command;
+import is.command.CommandHandler;
+import is.interpreter.Parser;
+import is.manager.ObjectManager;
+import is.shapes.model.AbstractGraphicObject;
 import is.shapes.model.GraphicObject;
 import is.shapes.view.GraphicObjectPanel;
 
+import java.io.StringReader;
+
 public class NewObjectCmd implements Command {
 
-	private GraphicObjectPanel panel;
-	private GraphicObject go;
-
-	public NewObjectCmd(GraphicObjectPanel panel, GraphicObject go) {
+	private ObjectManager manager;
+	private Parser parser;
+	private String id;
+	public NewObjectCmd(ObjectManager manager, String type,) {
 		
-		this.panel = panel;
-		this.go = go;
+		this.manager = manager;
+		this.object = object;
 		
 	}
 
 	@Override
 	public boolean doIt() {
-		double x = 10;
-		double y =  10;
-		go.moveTo(x, y);
-		panel.add(go);
 
+		if(id == null)
+			id = manager.addObject(object);
+		else
+			id = manager.setObject(id,object);
 		return true;
 	}
 
 	@Override
 	public boolean undoIt() {
-		panel.remove(go);
+
+		manager.removeObject(id);
 		return true;
 	}
 

@@ -1,5 +1,8 @@
 package is.shapes.model;
 
+import is.shapes.view.GraphicObjectView;
+import is.shapes.view.RectangleObjectView;
+
 import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
@@ -11,12 +14,15 @@ public class RectangleObject extends AbstractGraphicObject {
 
 	private Dimension2D dim;
 
+	private GraphicObjectView view;
+
 	public RectangleObject(Point2D pos, double w, double h) {
 		if (w <= 0 || h <= 0)
 			throw new IllegalArgumentException();
 		dim = new Dimension();
 		dim.setSize(w, h);
 		position = new Point2D.Double(pos.getX(), pos.getY());
+		view = new RectangleObjectView();
 
 	}
 
@@ -33,6 +39,11 @@ public class RectangleObject extends AbstractGraphicObject {
 	@Override
 	public double getArea() {
 		return dim.getHeight()*dim.getWidth();
+	}
+
+	@Override
+	public double getPerimeter() {
+		return 2*(dim.getHeight()+dim.getWidth());
 	}
 
 	@Override
@@ -74,6 +85,11 @@ public class RectangleObject extends AbstractGraphicObject {
 	public String getType() {
 
 		return "Rectangle";
+	}
+
+	@Override
+	public GraphicObjectView getView() {
+		return view;
 	}
 
 	@Override

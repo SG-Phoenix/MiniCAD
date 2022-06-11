@@ -1,5 +1,8 @@
 package is.shapes.model;
 
+import is.shapes.view.CircleObjectView;
+import is.shapes.view.GraphicObjectView;
+
 import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
@@ -10,12 +13,14 @@ public class CircleObject extends AbstractGraphicObject {
 	private Point2D position;
 
 	private double radius;
+	private GraphicObjectView view;
 
 	public CircleObject(Point2D pos, double r) {
 		if (r <= 0)
 			throw new IllegalArgumentException();
 		position = new Point2D.Double(pos.getX(), pos.getY());
 		radius = r;
+		view = new CircleObjectView();
 	}
 
 	
@@ -60,6 +65,11 @@ public class CircleObject extends AbstractGraphicObject {
 	}
 
 	@Override
+	public double getPerimeter() {
+		return radius*Math.PI*2;
+	}
+
+	@Override
 	public CircleObject clone() {
 		CircleObject cloned = (CircleObject) super.clone();
 		cloned.position = (Point2D) position.clone();
@@ -70,6 +80,11 @@ public class CircleObject extends AbstractGraphicObject {
 	public String getType() {
 
 		return "Circle";
+	}
+
+	@Override
+	public GraphicObjectView getView() {
+		return view;
 	}
 
 	public double getRadius() {
