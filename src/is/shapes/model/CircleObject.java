@@ -13,14 +13,13 @@ public class CircleObject extends AbstractGraphicObject {
 	private Point2D position;
 
 	private double radius;
-	private GraphicObjectView view;
+
 
 	public CircleObject(Point2D pos, double r) {
 		if (r <= 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Radius must be greater than zero");
 		position = new Point2D.Double(pos.getX(), pos.getY());
 		radius = r;
-		view = new CircleObjectView();
 	}
 
 	
@@ -82,10 +81,6 @@ public class CircleObject extends AbstractGraphicObject {
 		return "Circle";
 	}
 
-	@Override
-	public GraphicObjectView getView() {
-		return view;
-	}
 
 	public double getRadius() {
 		return radius;
@@ -102,5 +97,18 @@ public class CircleObject extends AbstractGraphicObject {
 	@Override
 	public int hashCode() {
 		return Objects.hash(position, radius);
+	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append(getType());
+		sb.append("[");
+		sb.append("radius="+this.radius);
+		sb.append(",");
+		sb.append("position=("+position.getX()+","+position.getY()+")");
+		sb.append("]");
+		return sb.toString();
 	}
 }

@@ -1,19 +1,18 @@
 package is.interpreter.create;
 
-import is.interpreter.CommandIF;
-import is.interpreter.Position;
+import is.interpreter.ExecutionResult;
+import is.interpreter.IntrCommand;
 import is.interpreter.typeconstr.TypeConstr;
 import is.manager.ObjectManager;
-import is.shapes.model.AbstractGraphicObject;
 import is.shapes.model.GraphicObject;
-import is.shapes.view.GraphicObjectPanel;
 
 import java.awt.geom.Point2D;
 
-public class Create implements CommandIF {
+public class Create implements IntrCommand {
 
     private TypeConstr element;
     private Point2D pos;
+
 
     public Create(TypeConstr element, Point2D pos) {
         this.element = element;
@@ -21,25 +20,17 @@ public class Create implements CommandIF {
     }
 
     @Override
-    public String interpreta(ObjectManager context) {
-        GraphicObject newObj = element.create(pos);
-        return context.addObject(newObj);
+    public ExecutionResult execute(ObjectManager manager) {
+        GraphicObject object = element.create(pos);
+        return new ExecutionResult(true, manager.addObject(object));
     }
+
+
+
 
     @Override
     public String toString()
     {
         return "Create["+element+" , "+pos+"]";
-    }
-
-
-    @Override
-    public boolean doIt() {
-        return false;
-    }
-
-    @Override
-    public boolean undoIt() {
-        return false;
     }
 }

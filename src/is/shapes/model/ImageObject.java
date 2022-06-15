@@ -7,27 +7,35 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.util.Objects;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class ImageObject extends AbstractGraphicObject {
 	private double factor = 1.0;
-
+	private final String imgRegex = "([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)";
 	private Image image;
 
 	private Point2D position;
-
-	private GraphicObjectView view;
+	private String path;
 
 	public Image getImage() {
 		return image;
 	}
 
-	public ImageObject(ImageIcon img, Point2D pos) {
+	public ImageObject(String imgPath, Point2D pos) {
+
+		if(imgPath.matches(imgRegex) && new File(imgPath).exists())
+		{
+			this.image = new ImageIcon(imgPath).getImage();
+			this.path = imgPath;
+		}
+		else
+			throw new IllegalArgumentException("You must choose correct image file");
+
 		position = new Point2D.Double(pos.getX(), pos.getY());
-		image = img.getImage();
-		view = new ImageObjectView();
 	}
 
 	@Override
@@ -88,13 +96,9 @@ public class ImageObject extends AbstractGraphicObject {
 	@Override
 	public String getType() {
 
-		return "Image";
+		return "Img";
 	}
 
-	@Override
-	public GraphicObjectView getView() {
-		return view;
-	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -107,5 +111,19 @@ public class ImageObject extends AbstractGraphicObject {
 	@Override
 	public int hashCode() {
 		return Objects.hash(factor, image, position);
+	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append(getType());
+		sb.append("[");
+		sb.append("path="+this.path);
+		sb.append(",");
+		sb.append("position=("+position.getX()+","+position.getY()+")");
+		sb.append("]");
+
+		return sb.toString();
 	}
 }

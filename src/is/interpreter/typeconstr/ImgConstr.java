@@ -1,5 +1,6 @@
 package is.interpreter.typeconstr;
 
+import is.Main;
 import is.shapes.model.AbstractGraphicObject;
 import is.shapes.model.ImageObject;
 
@@ -12,7 +13,7 @@ public class ImgConstr extends TypeConstr {
     private String path;
 
     public ImgConstr(String path) {
-        this.path = path;
+        this.path = path.replace("\\","/");
     }
 
 
@@ -24,6 +25,6 @@ public class ImgConstr extends TypeConstr {
 
     @Override
     public AbstractGraphicObject create(Point2D point) {
-        return new ImageObject(new ImageIcon(ImageObject.class.getResource(path)), point);
+        return new ImageObject(path, point);
     }
 }

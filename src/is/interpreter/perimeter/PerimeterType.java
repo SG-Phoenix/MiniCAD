@@ -1,10 +1,10 @@
 package is.interpreter.perimeter;
 
-import is.interpreter.Symbols;
+import is.interpreter.ExecutionResult;
 import is.manager.ObjectManager;
 import is.shapes.model.GraphicObject;
 import is.shapes.model.GroupObject;
-import is.shapes.view.GraphicObjectPanel;
+
 
 public class PerimeterType extends Perimeter {
 
@@ -15,14 +15,13 @@ public class PerimeterType extends Perimeter {
     }
 
     @Override
-    public String interpreta(ObjectManager context) {
+    public ExecutionResult execute(ObjectManager context) {
         double totalPerimeter = 0;
         for(GraphicObject object : context.getManagedObjects().values())
         {
             if(object.getType().equalsIgnoreCase(type))
                 totalPerimeter += object.getPerimeter();
-
-            else if(object.getType().equalsIgnoreCase("group"))
+            else if(object.getType().equals("Group"))
             {
                 for(GraphicObject child : ((GroupObject) object).getObjects())
                 {
@@ -33,9 +32,7 @@ public class PerimeterType extends Perimeter {
                 }
             }
         }
-
-
-        return String.valueOf(totalPerimeter);
+        return new ExecutionResult(true, String.valueOf(totalPerimeter));
     }
 
     @Override
@@ -43,4 +40,5 @@ public class PerimeterType extends Perimeter {
     {
         return "PerimeterType["+type.toString()+"]";
     }
+
 }

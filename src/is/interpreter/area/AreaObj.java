@@ -1,9 +1,9 @@
 package is.interpreter.area;
 
+import is.interpreter.ExecutionResult;
 import is.manager.ObjectManager;
-import is.shapes.model.AbstractGraphicObject;
+import is.manager.ObjectNotFoundException;
 import is.shapes.model.GraphicObject;
-import is.shapes.view.GraphicObjectPanel;
 
 public class AreaObj extends Area {
 
@@ -14,12 +14,15 @@ public class AreaObj extends Area {
     }
 
     @Override
-    public String interpreta(ObjectManager context) {
-        GraphicObject object = context.getObject(objID);
-        if(object != null)
-            return String.valueOf(object.getArea());
+    public ExecutionResult execute(ObjectManager context) {
+        GraphicObject object = null;
+        try {
+            object = context.getObject(objID);
+            return new ExecutionResult(true, String.valueOf(object.getArea()));
 
-        return "Object " + objID + " not found";
+        } catch (ObjectNotFoundException e) {
+            return new ExecutionResult(false,e.getMessage());
+        }
     }
 
     @Override
@@ -27,6 +30,5 @@ public class AreaObj extends Area {
     {
         return "AreaObj["+objID+"]";
     }
-
 
 }

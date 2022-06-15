@@ -23,17 +23,13 @@ public class MoveCommand implements Command {
 
 	@Override
 	public boolean doIt() {
-
 		object.moveTo(newPos);
-
 		return true;
 	}
 
 	@Override
 	public boolean undoIt() {
 		object.moveTo(oldPos);
-		
 		return true;
 	}
-
 }

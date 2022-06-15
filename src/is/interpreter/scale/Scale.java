@@ -1,12 +1,13 @@
 package is.interpreter.scale;
 
-import is.interpreter.CommandIF;
+import is.interpreter.ExecutionResult;
+import is.interpreter.IntrCommand;
 import is.manager.ObjectManager;
-import is.shapes.model.AbstractGraphicObject;
+import is.manager.ObjectNotFoundException;
 import is.shapes.model.GraphicObject;
-import is.shapes.view.GraphicObjectPanel;
 
-public class Scale implements CommandIF {
+
+public class Scale implements IntrCommand {
 
     private String objID;
     private double factor;
@@ -17,22 +18,22 @@ public class Scale implements CommandIF {
     }
 
     @Override
-    public String interpreta(ObjectManager context) {
-
-        GraphicObject object = context.getObject(objID);
-        if(object != null)
-        {
+    public ExecutionResult execute(ObjectManager context) {
+        try {
+            GraphicObject object = context.getObject(objID);
             object.scale(factor);
-            return "Object "+ objID + " scaled";
+            return new ExecutionResult(true, "Object with id " + objID + " was scaled");
+        }catch (ObjectNotFoundException e)
+        {
+            return new ExecutionResult(false, e.getMessage());
         }
-        return "Object "+ objID + " not found";
+
     }
+
 
     @Override
     public String toString()
     {
         return "Scale["+objID+" , "+ factor +"]";
     }
-
-
 }

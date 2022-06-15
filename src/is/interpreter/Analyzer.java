@@ -74,8 +74,10 @@ public class Analyzer {
                         symbol = Symbols.ALL;
                     else if (input.sval.equalsIgnoreCase("groups"))
                         symbol = Symbols.GROUPS;
+                    else if( input.sval.matches("id[0-9]+"))
+                        symbol = Symbols.ID;
                     else
-                        symbol = Symbols.VALUE;
+                        symbol = Symbols.INVALID;
                     break;
                 case '"':
                     symbol = Symbols.QUOTE;

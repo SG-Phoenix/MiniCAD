@@ -9,6 +9,7 @@ import is.interpreter.group.Group;
 import is.interpreter.list.*;
 import is.interpreter.list.List;
 import is.interpreter.move.Move;
+import is.interpreter.perimeter.Perimeter;
 import is.interpreter.perimeter.PerimeterAll;
 import is.interpreter.perimeter.PerimeterObj;
 import is.interpreter.perimeter.PerimeterType;
@@ -20,12 +21,8 @@ import is.interpreter.typeconstr.RectangleConstr;
 import is.interpreter.typeconstr.TypeConstr;
 import is.interpreter.ungroup.Ungroup;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
-import java.io.Reader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,16 +37,18 @@ public class Parser {
 
     }
 
-    public void setInput(Reader in)
+    public Parser parse(String in)
     {
-        analyzer = new Analyzer(in);
+
+        analyzer = new Analyzer(new StringReader(in.replace("\\","/")));
         this.command = command();
         atteso(Symbols.EOF);
+        return this;
     }
     private Command command()
     {
         nextSymbol = analyzer.getSymbol();
-        CommandIF comando;
+        IntrCommand comando;
         if(nextSymbol == Symbols.CREATE)
             comando = create();
         else
@@ -107,7 +106,7 @@ public class Parser {
                 atteso(Symbols.CLOSE_BRACKET);
             }
         else
-            throw new SyntaxException("circle/rectangle/img era atteso");
+            throw new SyntaxException("circle/rectangle/img expected");
 
         Point2D pos = position();
 
@@ -140,7 +139,7 @@ public class Parser {
 
     private Remove remove()
     {
-        atteso(Symbols.VALUE);
+        atteso(Symbols.ID);
         return new Remove(analyzer.getString());
     }
 
@@ -154,7 +153,7 @@ public class Parser {
         else
             isRelative = true;
 
-        atteso(Symbols.VALUE);
+        atteso(Symbols.ID);
         String objID = analyzer.getString();
 
         Point2D pos = position();
@@ -166,7 +165,7 @@ public class Parser {
 
     private Scale scale()
     {
-        atteso(Symbols.VALUE);
+        atteso(Symbols.ID);
         String objID = analyzer.getString();
 
         atteso(Symbols.NUMBER);
@@ -182,34 +181,31 @@ public class Parser {
             return new ListAll();
         if ( nextSymbol == Symbols.GROUPS )
             return new ListGroups();
-        if ( nextSymbol == Symbols.VALUE)
+        if ( nextSymbol == Symbols.ID)
             return new ListObj(analyzer.getString());
         if ( nextSymbol == Symbols.CIRCLE || nextSymbol == Symbols.IMG || nextSymbol == Symbols.RECTANGLE)
             return new ListType(nextSymbol.name());
-
-        throw new SyntaxException("objID/type/all/groups atteso");
+        else
+            throw new SyntaxException("objID/type/all/groups expected");
     }
 
     private Group group()
     {
-        atteso(Symbols.VALUE);
         Set<String> objList = new HashSet<>();
-        objList.add(analyzer.getString());
-
-        nextSymbol = analyzer.getSymbol();
-        while( nextSymbol == Symbols.COMMA)
-        {
-            atteso(Symbols.VALUE);
+        do {
+            atteso(Symbols.ID);
             objList.add(analyzer.getString());
             nextSymbol = analyzer.getSymbol();
-        }
+            if(nextSymbol != Symbols.EOF && nextSymbol != Symbols.COMMA)
+                throw new SyntaxException("COMMA or EOF expected, got "+ nextSymbol);
+        }while(nextSymbol == Symbols.COMMA);
 
         return new Group(objList);
     }
 
     private Ungroup ungroup()
     {
-        atteso(Symbols.VALUE);
+        atteso(Symbols.ID);
         return new Ungroup(analyzer.getString());
     }
 
@@ -218,22 +214,22 @@ public class Parser {
         nextSymbol = analyzer.getSymbol();
         if ( nextSymbol == Symbols.ALL )
             return new AreaAll();
-        if ( nextSymbol == Symbols.VALUE)
+        if ( nextSymbol == Symbols.ID)
             return new AreaObj(analyzer.getString());
         if ( nextSymbol == Symbols.CIRCLE ||
              nextSymbol == Symbols.RECTANGLE ||
              nextSymbol == Symbols.IMG)
             return new AreaType(nextSymbol.name());
         else
-            throw new SyntaxException("objID/type/all atteso");
+            throw new SyntaxException("objID/type/all expected");
     }
 
-    private CommandIF perimeter()
+    private Perimeter perimeter()
     {
         nextSymbol = analyzer.getSymbol();
         if ( nextSymbol == Symbols.ALL )
             return new PerimeterAll();
-        if ( nextSymbol == Symbols.VALUE)
+        if ( nextSymbol == Symbols.ID)
             return new PerimeterObj(analyzer.getString());
         if ( nextSymbol == Symbols.CIRCLE ||
              nextSymbol == Symbols.RECTANGLE ||
@@ -241,7 +237,7 @@ public class Parser {
             )
             return new PerimeterType(nextSymbol.name());
         else
-            throw new SyntaxException("objID/type/all atteso");
+            throw new SyntaxException("objID/type/all expected");
     }
 
 

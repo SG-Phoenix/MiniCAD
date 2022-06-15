@@ -6,18 +6,21 @@ import is.shapes.view.GroupObjectView;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-public class GroupObject extends AbstractGraphicObject{
+public class GroupObject extends AbstractGraphicObject {
 
     private Point2D position;
-    private List<GraphicObject> groupObjects;
-    private GraphicObjectView view;
+    private Set<GraphicObject> groupObjects;
 
-    public GroupObject(List<GraphicObject> groupObjects) {
+    public GroupObject(Set<GraphicObject> groupObjects) {
+        this.groupObjects = new HashSet<>(groupObjects);
+        setPosition();
+    }
+
+    private void setPosition()
+    {
         double mediaX = 0;
         double mediaY = 0;
         for(GraphicObject object: groupObjects)
@@ -31,8 +34,6 @@ public class GroupObject extends AbstractGraphicObject{
         mediaY /=groupObjects.size();
 
         this.position = new Point2D.Double(mediaX,mediaY);
-        this.groupObjects = groupObjects;
-        view = new GroupObjectView();
     }
 
     @Override
@@ -114,7 +115,7 @@ public class GroupObject extends AbstractGraphicObject{
         return totalGroupPerimeter;
     }
 
-    public List<GraphicObject> getObjects()
+    public Set<GraphicObject> getObjects()
     {
         return groupObjects;
     }
@@ -124,8 +125,22 @@ public class GroupObject extends AbstractGraphicObject{
         return "Group";
     }
 
+
     @Override
-    public GraphicObjectView getView() {
-        return view;
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getType());
+        sb.append("[");
+        sb.append("position=("+position.getX()+","+position.getY()+")");
+        sb.append("\n");
+        sb.append("Children:\n");
+        for(GraphicObject child : groupObjects)
+            sb.append(" "+child+"\n");
+        sb.append("]");
+
+        return sb.toString();
     }
+
+
 }

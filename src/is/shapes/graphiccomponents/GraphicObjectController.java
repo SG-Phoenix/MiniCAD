@@ -1,8 +1,7 @@
-package is.shapes.controller;
+package is.shapes.graphiccomponents;
 
 import is.command.CommandHandler;
 import is.manager.ObjectManager;
-import is.shapes.model.GraphicObject;
 import is.shapes.specificcommand.MoveCommand;
 import is.shapes.specificcommand.ZoomCommand;
 
@@ -51,7 +50,7 @@ public class GraphicObjectController extends JPanel {
 		JButton minus = new JButton("-");
 
 		minus.addActionListener(e -> {
-			if (subject != null || manager.getObject(subject) == null) {
+			if (subject != null && manager.getObject(subject) != null) {
 				// subject.scale(1.0-zoom_factor);
 				cmdHandler.handle(new ZoomCommand(manager.getObject(subject), 1.0 - zoom_factor));
 			}
@@ -62,7 +61,7 @@ public class GraphicObjectController extends JPanel {
 		JButton plus = new JButton("+");
 		plus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (subject != null || manager.getObject(subject) == null) {
+				if (subject != null && manager.getObject(subject) != null) {
 					// subject.scale(1.0 + zoom_factor);
 					cmdHandler.handle(new ZoomCommand(manager.getObject(subject), 1.0 + zoom_factor));
 				}

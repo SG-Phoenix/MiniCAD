@@ -14,15 +14,13 @@ public class RectangleObject extends AbstractGraphicObject {
 
 	private Dimension2D dim;
 
-	private GraphicObjectView view;
 
 	public RectangleObject(Point2D pos, double w, double h) {
 		if (w <= 0 || h <= 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Width and Height must be greater than zero");
 		dim = new Dimension();
 		dim.setSize(w, h);
 		position = new Point2D.Double(pos.getX(), pos.getY());
-		view = new RectangleObjectView();
 
 	}
 
@@ -87,10 +85,6 @@ public class RectangleObject extends AbstractGraphicObject {
 		return "Rectangle";
 	}
 
-	@Override
-	public GraphicObjectView getView() {
-		return view;
-	}
 
 	@Override
 	public boolean equals(Object o) {
@@ -103,5 +97,21 @@ public class RectangleObject extends AbstractGraphicObject {
 	@Override
 	public int hashCode() {
 		return Objects.hash(position, dim);
+	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append(getType());
+		sb.append("[");
+		sb.append("width="+dim.getWidth());
+		sb.append(",");
+		sb.append("height="+dim.getHeight());
+		sb.append(",");
+		sb.append("position=("+position.getX()+","+position.getY()+")");
+		sb.append("]");
+
+		return sb.toString();
 	}
 }

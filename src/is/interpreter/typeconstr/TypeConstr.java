@@ -1,6 +1,5 @@
 package is.interpreter.typeconstr;
 
-import is.interpreter.GrammarElement;
 import is.shapes.model.AbstractGraphicObject;
 
 import java.awt.geom.Point2D;

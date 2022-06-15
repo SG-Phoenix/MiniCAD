@@ -29,5 +29,4 @@ public interface GraphicObject {
 
 	String getType();
 
-	GraphicObjectView getView();
 }

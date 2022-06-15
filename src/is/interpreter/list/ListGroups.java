@@ -1,33 +1,38 @@
 package is.interpreter.list;
 
+import is.interpreter.ExecutionResult;
 import is.manager.ObjectManager;
-import is.shapes.model.AbstractGraphicObject;
 import is.shapes.model.GraphicObject;
-import is.shapes.view.GraphicObjectPanel;
+
+import javax.swing.*;
+import java.util.Map;
+
 
 public class ListGroups extends List {
 
-
     @Override
-    public String interpreta(ObjectManager context) {
+    public ExecutionResult execute(ObjectManager context) {
         StringBuilder sb = new StringBuilder();
-        for(GraphicObject object : context.getManagedObjects().values())
+        sb.append("All groups: ");
+        sb.append("\n");
+        for(Map.Entry<String, GraphicObject> object : context.getManagedObjects().entrySet())
         {
-            if(object.getType().equals("Group"))
+            if(object.getValue().getType().equals("Group"))
             {
-                sb.append(object);
+                sb.append("Object "+ object.getKey());
+                sb.append("\n");
+                sb.append(object.getValue());
                 sb.append("\n");
             }
         }
-
-        return sb.toString();
+        return new ExecutionResult(true, sb.toString());
     }
+
 
     @Override
     public String toString()
     {
         return "ListGroups";
     }
-
 
 }

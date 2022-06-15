@@ -31,11 +31,23 @@ public class GraphicObjectPanel extends JComponent implements GraphicObjectListe
 
 	private ObjectManager manager;
 
+	private Map<Class<? extends GraphicObject>, GraphicObjectView> viewMap = new HashMap<>();
+
 	public GraphicObjectPanel(ObjectManager manager) {
 
 		this.manager = manager;
 		manager.addGraphicObjectListener(this);
 		setBackground(Color.WHITE);
+	}
+
+	public void installView(Class<? extends GraphicObject> clazz, GraphicObjectView view)
+	{
+		viewMap.put(clazz,view);
+	}
+
+	public void setViewMap(Map<Class<? extends GraphicObject>, GraphicObjectView> viewMap)
+	{
+		this.viewMap = new HashMap<>(viewMap);
 	}
 
 	public void setObjectManager(ObjectManager manager)
@@ -87,7 +99,7 @@ public class GraphicObjectPanel extends JComponent implements GraphicObjectListe
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		for (GraphicObject go : manager.getManagedObjects().values()) {
-			go.getView().drawGraphicObject(go, g2);
+			viewMap.get(go.getClass()).drawGraphicObject(go, g2);
 		}
 
 	}

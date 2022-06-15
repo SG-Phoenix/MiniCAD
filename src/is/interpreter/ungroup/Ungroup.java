@@ -1,12 +1,14 @@
 package is.interpreter.ungroup;
 
-import is.interpreter.CommandIF;
+import is.interpreter.ExecutionResult;
+import is.interpreter.IntrCommand;
+import is.manager.NotAGroupException;
 import is.manager.ObjectManager;
-import is.shapes.model.AbstractGraphicObject;
-import is.shapes.model.GraphicObject;
-import is.shapes.view.GraphicObjectPanel;
+import is.manager.ObjectNotFoundException;
 
-public class Ungroup implements CommandIF {
+import javax.swing.*;
+
+public class Ungroup implements IntrCommand {
 
     private String objID;
 
@@ -14,23 +16,25 @@ public class Ungroup implements CommandIF {
         this.objID = objID;
     }
 
+
     @Override
-    public String interpreta(ObjectManager context) {
+    public ExecutionResult execute(ObjectManager context) {
 
-        GraphicObject object = context.getObject(objID);
-
-        if(context.ungroupObject(objID))
-            return "Group deleted";
-
-        return "Group not found";
-
+        try
+        {
+            context.ungroupObject(objID);
+            return new ExecutionResult(true, "Group "+objID + " ungrouped");
+        }catch (ObjectNotFoundException | NotAGroupException e)
+        {
+            return new ExecutionResult(false, e.getMessage());
+        }
     }
+
 
     @Override
     public String toString()
     {
         return "Ungroup["+objID+"]";
     }
-
 
 }

@@ -1,13 +1,12 @@
 package is.interpreter;
 
 import is.manager.ObjectManager;
-import is.shapes.view.GraphicObjectPanel;
 
-public class Command implements GrammarElement {
+public class Command implements IntrCommand {
 
-    private CommandIF command;
+    private IntrCommand command;
 
-    public Command(CommandIF command)
+    public Command(IntrCommand command)
     {
         this.command = command;
     }
@@ -23,7 +22,8 @@ public class Command implements GrammarElement {
     }
 
     @Override
-    public String interpreta(ObjectManager context) {
-        return command.interpreta(context);
+    public ExecutionResult execute(ObjectManager context) {
+        return this.command.execute(context);
     }
+
 }

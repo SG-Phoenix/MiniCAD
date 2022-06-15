@@ -1,6 +1,7 @@
 package is.shapes.specificcommand;
 
 import is.command.Command;
+import is.manager.ObjectManager;
 import is.shapes.model.GraphicObject;
 
 public class ZoomCommand implements Command {
@@ -23,7 +24,6 @@ public class ZoomCommand implements Command {
 	@Override
 	public boolean undoIt() {
 		object.scale(1.0 / factor);
-		return true;
+		return false;
 	}
-
 }

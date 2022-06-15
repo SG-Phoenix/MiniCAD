@@ -21,7 +21,7 @@ public enum Symbols {
     COMMA,
     EOF,
     INVALID,
-    VALUE,
+    ID,
     QUOTE,
     NUMBER
 }

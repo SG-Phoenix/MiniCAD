@@ -47,86 +47,64 @@ public class ObjectManager implements GraphicObjectListener{
         return objID;
     }
 
-    public String setObject(String key, GraphicObject object)
-    {
-        managedObjects.put(key, object);
+    public GraphicObject removeObject(String objID) throws ObjectNotFoundException {
+        GraphicObject object = getObject(objID);
+        object.removeGraphicObjectListener(this);
         notifyListeners(new GraphicEvent(object));
-        return key;
-    }
-
-    public GraphicObject removeObject(String objID)
-    {
-        GraphicObject object = managedObjects.get(objID);
-        if( object != null )
-        {
-            object.removeGraphicObjectListener(this);
-            notifyListeners(new GraphicEvent(object));
-            return managedObjects.remove(objID);
-        }
-        return null;
+        return managedObjects.remove(objID);
 
     }
 
-    public String groupObject(Set<String> ids)
-    {
-        Map<String,GraphicObject> objList = new HashMap();
+    public String groupObject(Set<String> ids) throws ObjectNotFoundException, IllegalArgumentException {
+
+        if(ids == null || ids.size()<1)
+            throw new IllegalArgumentException("Group cannot be null");
+
+        Set<GraphicObject> groupObj = new HashSet<>();
         for(String key : ids)
         {
-            GraphicObject object = managedObjects.get(key);
-            if( object == null )
-                return "Object " + key + " not found";
+            GraphicObject object = getObject(key);
 
-            objList.put(key,object);
+            groupObj.add(object);
         }
 
-        System.out.println("Prima:");
-        for(String key : managedObjects.keySet())
-        {
-            System.out.println(key);
-        }
         managedObjects.keySet().removeAll(ids);
-
-        System.out.println("Dopo:");
-        for(String key : managedObjects.keySet())
-        {
-            System.out.println(key);
-        }
-        String id = getID();
-        GroupObject newGroup = new GroupObject(objList);
-        managedObjects.put(id,newGroup);
-        notifyListeners(new GraphicEvent(newGroup));
-        return id;
+        GroupObject newGroup = new GroupObject(groupObj);
+        String grpID = addObject(newGroup);
+        return grpID;
     }
 
-    public boolean ungroupObject(String objID)
-    {
-        GraphicObject object = managedObjects.get(objID);
-        if(object != null && object.getType().equals("Group"))
+    public void ungroupObject(String objID) throws ObjectNotFoundException, NotAGroupException {
+        GraphicObject object = getObject(objID);
+        if(object.getType().equals("Group"))
         {
             managedObjects.remove(objID);
-            for(Map.Entry<String,GraphicObject> childObj : ((GroupObject) object).getObjects().entrySet())
+
+            for(GraphicObject child : ((GroupObject) object).getObjects())
             {
-                managedObjects.put(childObj.getKey(),childObj.getValue());
+                String id = getID();
+                managedObjects.put(id,child);
             }
+
             notifyListeners(new GraphicEvent(object));
-            return true;
         }
-        return false;
+        else
+            throw new NotAGroupException(objID);
     }
 
-    public GraphicObject getObject(String objID)
-    {
+    public GraphicObject getObject(String objID) throws ObjectNotFoundException {
         GraphicObject object = managedObjects.get(objID);
 
         if( object != null)
         {
             return object;
         }
-        return null;
+        else throw new ObjectNotFoundException(objID);
     }
 
     public Map<String, GraphicObject> getManagedObjects()
     {
+
         return Collections.unmodifiableMap(managedObjects);
     }
 

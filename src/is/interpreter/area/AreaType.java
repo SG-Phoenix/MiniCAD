@@ -1,11 +1,9 @@
 package is.interpreter.area;
 
-import is.interpreter.Symbols;
+import is.interpreter.ExecutionResult;
 import is.manager.ObjectManager;
-import is.shapes.model.AbstractGraphicObject;
 import is.shapes.model.GraphicObject;
 import is.shapes.model.GroupObject;
-import is.shapes.view.GraphicObjectPanel;
 
 public class AreaType extends Area {
 
@@ -16,13 +14,20 @@ public class AreaType extends Area {
     }
 
     @Override
-    public String interpreta(ObjectManager context) {
+    public String toString()
+    {
+        return "AreaType["+type.toString()+"]";
+    }
+
+
+    @Override
+    public ExecutionResult execute(ObjectManager context) {
         double totArea = 0;
         for(GraphicObject object : context.getManagedObjects().values())
         {
             if(object.getType().equalsIgnoreCase(type))
                 totArea += object.getArea();
-            else if(object.getType().equalsIgnoreCase("group"))
+            else if(object.getType().equals("Group"))
             {
                 for(GraphicObject child : ((GroupObject) object).getObjects())
                 {
@@ -34,14 +39,7 @@ public class AreaType extends Area {
             }
         }
 
-        return String.valueOf(totArea);
+        return new ExecutionResult(true, String.valueOf(totArea));
     }
-
-    @Override
-    public String toString()
-    {
-        return "AreaType["+type.toString()+"]";
-    }
-
 
 }

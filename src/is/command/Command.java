@@ -1,7 +1,8 @@
 package is.command;
 
 public interface Command {
-	boolean doIt();
 
-	boolean undoIt();
+    public boolean doIt();
+
+    public boolean undoIt();
 }

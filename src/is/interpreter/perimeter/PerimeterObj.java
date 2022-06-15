@@ -1,9 +1,9 @@
 package is.interpreter.perimeter;
 
+import is.interpreter.ExecutionResult;
 import is.manager.ObjectManager;
-import is.shapes.model.AbstractGraphicObject;
+import is.manager.ObjectNotFoundException;
 import is.shapes.model.GraphicObject;
-import is.shapes.view.GraphicObjectPanel;
 
 public class PerimeterObj extends Perimeter {
 
@@ -14,14 +14,14 @@ public class PerimeterObj extends Perimeter {
     }
 
     @Override
-    public String interpreta(ObjectManager context) {
-
-        GraphicObject object = context.getObject(objID);
-
-        if(object != null)
-            return String.valueOf(object.getPerimeter());
-
-        return "Object " + objID + " not found";
+    public ExecutionResult execute(ObjectManager context) {
+        try {
+            GraphicObject object = context.getObject(objID);
+            return new ExecutionResult(true, String.valueOf(object.getPerimeter()));
+        }catch (ObjectNotFoundException e)
+        {
+            return new ExecutionResult(false, e.getMessage());
+        }
     }
 
     @Override
