@@ -4,7 +4,7 @@ import is.interpreter.ExecutionResult;
 import is.manager.ObjectManager;
 import is.shapes.model.GraphicObject;
 
-public class AreaAll extends Area {
+public class AreaAll implements Area {
 
     @Override
     public ExecutionResult execute(ObjectManager context) {

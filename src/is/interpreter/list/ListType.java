@@ -7,7 +7,8 @@ import is.shapes.model.GroupObject;
 
 import java.util.Map;
 
-public class ListType extends List {
+public class ListType implements List
+{
 
     private String type;
 

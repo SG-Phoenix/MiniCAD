@@ -71,7 +71,7 @@ public class GraphicMenu extends JMenuBar {
                         }
                         catch ( IllegalArgumentException e)
                         {
-
+                            JOptionPane.showMessageDialog(null, "You must set all required fields!", "SyntaxException",JOptionPane.WARNING_MESSAGE, null);
                         }
 
                     }
@@ -121,6 +121,10 @@ public class GraphicMenu extends JMenuBar {
                         }catch (SyntaxException e)
                         {
                             JOptionPane.showMessageDialog(null, e.getMessage(), "SyntaxException",JOptionPane.WARNING_MESSAGE, null);
+                        }
+                        catch ( IllegalArgumentException e)
+                        {
+                            JOptionPane.showMessageDialog(null, "You must set all required fields!", "SyntaxException",JOptionPane.WARNING_MESSAGE, null);
                         }
 
                     }
@@ -174,6 +178,10 @@ public class GraphicMenu extends JMenuBar {
                         }catch (SyntaxException e)
                         {
                             JOptionPane.showMessageDialog(null, e.getMessage(), "SyntaxException",JOptionPane.WARNING_MESSAGE, null);
+                        }
+                        catch ( IllegalArgumentException e)
+                        {
+                            JOptionPane.showMessageDialog(null, "You must set all required fields!", "SyntaxException",JOptionPane.WARNING_MESSAGE, null);
                         }
 
                     }

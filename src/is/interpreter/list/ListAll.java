@@ -7,7 +7,7 @@ import is.shapes.model.GraphicObject;
 import javax.swing.*;
 import java.util.Map;
 
-public class ListAll extends List
+public class ListAll implements List
 {
     @Override
     public String toString()

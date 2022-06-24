@@ -6,7 +6,7 @@ import is.shapes.model.GraphicObject;
 import is.shapes.model.GroupObject;
 
 
-public class PerimeterType extends Perimeter {
+public class PerimeterType implements Perimeter {
 
     private String type;
 

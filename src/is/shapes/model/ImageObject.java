@@ -1,8 +1,5 @@
 package is.shapes.model;
 
-import is.shapes.view.GraphicObjectView;
-import is.shapes.view.ImageObjectView;
-
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.geom.Dimension2D;
@@ -10,12 +7,11 @@ import java.awt.geom.Point2D;
 import java.io.File;
 import java.util.Objects;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class ImageObject extends AbstractGraphicObject {
 	private double factor = 1.0;
-	private final String imgRegex = "([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)";
+	private final String IMG_REGEX = "([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)";
 	private Image image;
 
 	private Point2D position;
@@ -27,7 +23,7 @@ public class ImageObject extends AbstractGraphicObject {
 
 	public ImageObject(String imgPath, Point2D pos) {
 
-		if(imgPath.matches(imgRegex) && new File(imgPath).exists())
+		if(imgPath.matches(IMG_REGEX) && new File(imgPath).exists())
 		{
 			this.image = new ImageIcon(imgPath).getImage();
 			this.path = imgPath;

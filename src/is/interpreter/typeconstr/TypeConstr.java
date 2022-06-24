@@ -1,10 +1,11 @@
 package is.interpreter.typeconstr;
 
 import is.shapes.model.AbstractGraphicObject;
+import is.shapes.model.GraphicObject;
 
 import java.awt.geom.Point2D;
 
-public abstract class TypeConstr {
+public interface TypeConstr {
 
-    public abstract AbstractGraphicObject create(Point2D point);
+    public abstract GraphicObject create(Point2D point);
 }

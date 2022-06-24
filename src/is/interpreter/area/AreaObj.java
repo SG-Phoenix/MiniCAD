@@ -5,7 +5,7 @@ import is.manager.ObjectManager;
 import is.manager.ObjectNotFoundException;
 import is.shapes.model.GraphicObject;
 
-public class AreaObj extends Area {
+public class AreaObj implements Area {
 
     private String objID;
 

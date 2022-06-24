@@ -8,7 +8,8 @@ import javax.swing.*;
 import java.util.Map;
 
 
-public class ListGroups extends List {
+public class ListGroups implements List
+{
 
     @Override
     public ExecutionResult execute(ObjectManager context) {

@@ -30,9 +30,6 @@ public class Analyzer {
     public Double getNumber() {
         return input.nval;
     }
-    public Symbols currentSymbol() {
-        return symbol;
-    }
 
     public Symbols getSymbol() {
         try {
@@ -44,7 +41,7 @@ public class Analyzer {
                     symbol = Symbols.NUMBER;
                     break;
                 case StreamTokenizer.TT_WORD:
-                    if (input.sval.equalsIgnoreCase("create"))
+                    if (input.sval.equalsIgnoreCase("new"))
                         symbol = Symbols.CREATE;
                     else if (input.sval.equalsIgnoreCase("del"))
                         symbol = Symbols.REMOVE;

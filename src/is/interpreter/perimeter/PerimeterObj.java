@@ -5,7 +5,7 @@ import is.manager.ObjectManager;
 import is.manager.ObjectNotFoundException;
 import is.shapes.model.GraphicObject;
 
-public class PerimeterObj extends Perimeter {
+public class PerimeterObj implements Perimeter {
 
     private String objID;
 

@@ -3,7 +3,6 @@ package is.shapes.specificcommand;
 import is.command.Command;
 import is.interpreter.ExecutionResult;
 import is.interpreter.Parser;
-import is.interpreter.Position;
 import is.interpreter.SyntaxException;
 import is.manager.ObjectManager;
 
@@ -32,8 +31,8 @@ public class IntrCircleCreateCmd implements Command {
         try
         {
             ExecutionResult res = parser.parse(
-                            "create circle ("+this.radius+") ("+this.pos.getX()+","+this.pos.getY()+")")
-                    .getCommand().execute(manager);
+                            "new circle ("+this.radius+") ("+this.pos.getX()+","+this.pos.getY()+")")
+                    .getCmd().execute(manager);
             if(res.isExecuted())
             {
                 objID = res.getMessage();
@@ -57,7 +56,7 @@ public class IntrCircleCreateCmd implements Command {
 
     @Override
     public boolean undoIt() {
-        parser.parse("del "+objID).getCommand().execute(manager);
+        parser.parse("del "+objID).getCmd().execute(manager);
         return true;
     }
 }

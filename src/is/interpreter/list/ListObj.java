@@ -5,7 +5,7 @@ import is.manager.ObjectManager;
 import is.manager.ObjectNotFoundException;
 import is.shapes.model.GraphicObject;
 
-public class ListObj extends List
+public class ListObj implements List
 {
     private String objID;
 

@@ -8,13 +8,13 @@ import java.util.*;
 public class ObjectManager implements GraphicObjectListener{
 
     private Map<String, GraphicObject> managedObjects;
-    private List<GraphicObjectListener> listenersList;
+    private Set<GraphicObjectListener> listenersList;
     private int nextID;
 
     public ObjectManager()
     {
         managedObjects = new HashMap<String, GraphicObject>();
-        listenersList = new LinkedList<GraphicObjectListener>();
+        listenersList = new HashSet<GraphicObjectListener>();
         nextID = 0;
     }
 
@@ -50,8 +50,9 @@ public class ObjectManager implements GraphicObjectListener{
     public GraphicObject removeObject(String objID) throws ObjectNotFoundException {
         GraphicObject object = getObject(objID);
         object.removeGraphicObjectListener(this);
+        managedObjects.remove(objID);
         notifyListeners(new GraphicEvent(object));
-        return managedObjects.remove(objID);
+        return object;
 
     }
 

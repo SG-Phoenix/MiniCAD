@@ -2,13 +2,14 @@ package is.interpreter.typeconstr;
 
 import is.Main;
 import is.shapes.model.AbstractGraphicObject;
+import is.shapes.model.GraphicObject;
 import is.shapes.model.ImageObject;
 
 import javax.swing.*;
 import java.awt.geom.Point2D;
 import java.nio.file.Path;
 
-public class ImgConstr extends TypeConstr {
+public class ImgConstr implements TypeConstr {
 
     private String path;
 
@@ -24,7 +25,7 @@ public class ImgConstr extends TypeConstr {
     }
 
     @Override
-    public AbstractGraphicObject create(Point2D point) {
+    public GraphicObject create(Point2D point) {
         return new ImageObject(path, point);
     }
 }

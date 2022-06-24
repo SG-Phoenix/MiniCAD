@@ -30,7 +30,7 @@ public class Parser {
 
     private Analyzer analyzer;
     private Symbols nextSymbol;
-    private Command command;
+    private Command cmd;
 
     public Parser()
     {
@@ -41,8 +41,8 @@ public class Parser {
     {
 
         analyzer = new Analyzer(new StringReader(in.replace("\\","/")));
-        this.command = command();
-        atteso(Symbols.EOF);
+        this.cmd = command();
+        symbolCheck(Symbols.EOF);
         return this;
     }
     private Command command()
@@ -76,7 +76,7 @@ public class Parser {
             if ( nextSymbol == Symbols.PERIMETER )
                 comando = perimeter();
         else
-            throw new SyntaxException("Comando valido atteso!");
+            throw new SyntaxException("Not a valid command");
 
         return new Command(comando);
     }
@@ -92,18 +92,18 @@ public class Parser {
         nextSymbol = analyzer.getSymbol();
 
         if ( nextSymbol == Symbols.CIRCLE ) {
-            atteso(Symbols.OPEN_BRACKET);
+            symbolCheck(Symbols.OPEN_BRACKET);
             element = circle();
-            atteso(Symbols.CLOSE_BRACKET);
+            symbolCheck(Symbols.CLOSE_BRACKET);
         }
         else
             if ( nextSymbol == Symbols.RECTANGLE )
                 element = rectangle();
         else
             if ( nextSymbol == Symbols.IMG ) {
-                atteso(Symbols.OPEN_BRACKET);
+                symbolCheck(Symbols.OPEN_BRACKET);
                 element = img();
-                atteso(Symbols.CLOSE_BRACKET);
+                symbolCheck(Symbols.CLOSE_BRACKET);
             }
         else
             throw new SyntaxException("circle/rectangle/img expected");
@@ -116,7 +116,9 @@ public class Parser {
 
     private CircleConstr circle()
     {
-        atteso(Symbols.NUMBER);
+        symbolCheck(Symbols.NUMBER);
+        if(analyzer.getNumber()<0)
+            throw new SyntaxException("Number must be > 0");
         return new CircleConstr(analyzer.getNumber());
 
     }
@@ -139,7 +141,7 @@ public class Parser {
 
     private Remove remove()
     {
-        atteso(Symbols.ID);
+        symbolCheck(Symbols.ID);
         return new Remove(analyzer.getString());
     }
 
@@ -153,7 +155,7 @@ public class Parser {
         else
             isRelative = true;
 
-        atteso(Symbols.ID);
+        symbolCheck(Symbols.ID);
         String objID = analyzer.getString();
 
         Point2D pos = position();
@@ -165,11 +167,13 @@ public class Parser {
 
     private Scale scale()
     {
-        atteso(Symbols.ID);
+        symbolCheck(Symbols.ID);
         String objID = analyzer.getString();
 
-        atteso(Symbols.NUMBER);
+        symbolCheck(Symbols.NUMBER);
         double scale = analyzer.getNumber();
+        if(analyzer.getNumber()<0)
+            throw new SyntaxException("Number must be > 0");
 
         return new Scale(objID,scale);
     }
@@ -193,7 +197,7 @@ public class Parser {
     {
         Set<String> objList = new HashSet<>();
         do {
-            atteso(Symbols.ID);
+            symbolCheck(Symbols.ID);
             objList.add(analyzer.getString());
             nextSymbol = analyzer.getSymbol();
             if(nextSymbol != Symbols.EOF && nextSymbol != Symbols.COMMA)
@@ -205,7 +209,7 @@ public class Parser {
 
     private Ungroup ungroup()
     {
-        atteso(Symbols.ID);
+        symbolCheck(Symbols.ID);
         return new Ungroup(analyzer.getString());
     }
 
@@ -244,37 +248,41 @@ public class Parser {
 
     private String path()
     {
-        atteso(Symbols.QUOTE);
+        symbolCheck(Symbols.QUOTE);
         return analyzer.getString();
     }
 
     private Point2D position()
     {
 
-        atteso(Symbols.OPEN_BRACKET);
-        atteso(Symbols.NUMBER);
+        symbolCheck(Symbols.OPEN_BRACKET);
+        symbolCheck(Symbols.NUMBER);
+        if(analyzer.getNumber()<0)
+            throw new SyntaxException("Number must be > 0");
         double x = analyzer.getNumber();
-        atteso(Symbols.COMMA);
-        atteso(Symbols.NUMBER);
+        symbolCheck(Symbols.COMMA);
+        symbolCheck(Symbols.NUMBER);
+        if(analyzer.getNumber()<0)
+            throw new SyntaxException("Number must be > 0");
         double y = analyzer.getNumber();
-        atteso(Symbols.CLOSE_BRACKET);
+        symbolCheck(Symbols.CLOSE_BRACKET);
 
         return new Point2D.Double(x,y);
     }
 
 
-    private void atteso(Symbols s)
+    private void symbolCheck(Symbols s)
     {
         nextSymbol = analyzer.getSymbol();
         if (nextSymbol != s) {
-            String msg = " trovato " + nextSymbol + " mentre si attendeva " + s;
+            String msg = " found " + nextSymbol + " but was expecting " + s;
             throw new SyntaxException(msg);
         }
-    }// atteso
+    }// symbolCheck
 
-    public Command getCommand()
+    public Command getCmd()
     {
-        return this.command;
+        return this.cmd;
     }
 
 }

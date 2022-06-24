@@ -28,7 +28,7 @@ public class IntrPerimeterCmd implements Command {
         {
             ExecutionResult res = parser.parse(
                             "perimeter "+target)
-                    .getCommand().execute(manager);
+                    .getCmd().execute(manager);
 
             if(res.isExecuted())
             {

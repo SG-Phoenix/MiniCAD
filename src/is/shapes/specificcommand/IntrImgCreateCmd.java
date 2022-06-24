@@ -30,8 +30,8 @@ public class IntrImgCreateCmd implements Command {
         try {
 
             ExecutionResult res = parser.parse(
-                    "create img (\""+imagePath+"\") ("+pos.getX()+","+pos.getY()+")"
-            ).getCommand().execute(manager);
+                    "new img (\""+imagePath+"\") ("+pos.getX()+","+pos.getY()+")"
+            ).getCmd().execute(manager);
             if(res.isExecuted())
             {
                 objID = res.getMessage();
@@ -57,7 +57,7 @@ public class IntrImgCreateCmd implements Command {
 
     @Override
     public boolean undoIt() {
-        parser.parse("del "+objID).getCommand().execute(manager);
+        parser.parse("del "+objID).getCmd().execute(manager);
         return true;
     }
 }

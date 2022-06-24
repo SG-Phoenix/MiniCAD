@@ -32,8 +32,8 @@ public class IntrRectangleCreateCmd implements Command {
         try
         {
             ExecutionResult res = parser.parse(
-                            "create rectangle ("+dim.getWidth()+","+dim.getHeight()+") ("+pos.getX()+","+pos.getY()+")")
-                    .getCommand().execute(manager);
+                            "new rectangle ("+dim.getWidth()+","+dim.getHeight()+") ("+pos.getX()+","+pos.getY()+")")
+                    .getCmd().execute(manager);
 
             if(res.isExecuted())
             {
@@ -59,7 +59,7 @@ public class IntrRectangleCreateCmd implements Command {
 
     @Override
     public boolean undoIt() {
-        parser.parse("del "+objID).getCommand().execute(manager);
+        parser.parse("del "+objID).getCmd().execute(manager);
         return true;
     }
 }

@@ -4,7 +4,7 @@ import is.interpreter.ExecutionResult;
 import is.manager.ObjectManager;
 import is.shapes.model.GraphicObject;
 
-public class PerimeterAll extends Perimeter {
+public class PerimeterAll implements Perimeter {
 
     @Override
     public ExecutionResult execute(ObjectManager context) {

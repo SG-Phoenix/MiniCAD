@@ -23,7 +23,7 @@ public class IntrListCmd implements Command {
     @Override
     public boolean doIt() {
         try{
-           ExecutionResult res = parser.parse("ls "+ target).getCommand().execute(manager);
+           ExecutionResult res = parser.parse("ls "+ target).getCmd().execute(manager);
            if(res.isExecuted())
            {
                JOptionPane.showMessageDialog(null, res.getMessage(),

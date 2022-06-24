@@ -2,26 +2,27 @@ package is.interpreter.typeconstr;
 
 import is.shapes.model.AbstractGraphicObject;
 import is.shapes.model.CircleObject;
+import is.shapes.model.GraphicObject;
 
 import java.awt.geom.Point2D;
 
-public class CircleConstr extends TypeConstr {
+public class CircleConstr implements TypeConstr {
 
-    private double pos;
+    private double rad;
 
     public CircleConstr(double pos) {
-        this.pos = pos;
+        this.rad = pos;
     }
 
 
     @Override
     public String toString()
     {
-        return "CircleConstr["+pos+"]";
+        return "CircleConstr["+ rad +"]";
     }
 
     @Override
-    public AbstractGraphicObject create(Point2D point) {
-        return new CircleObject(point, pos);
+    public GraphicObject create(Point2D point) {
+        return new CircleObject(point, rad);
     }
 }

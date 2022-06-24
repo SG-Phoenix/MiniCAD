@@ -24,7 +24,7 @@ public class IntrDeleteCmd implements Command {
     public boolean doIt() {
         try{
             ExecutionResult res = parser.parse("del " + objID)
-                                    .getCommand().execute(manager);
+                                    .getCmd().execute(manager);
             if(res.isExecuted())
             {
                 JOptionPane.showMessageDialog(null,

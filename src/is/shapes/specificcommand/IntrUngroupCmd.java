@@ -8,7 +8,6 @@ import is.interpreter.SyntaxException;
 import is.manager.ObjectManager;
 
 import javax.swing.*;
-import java.util.stream.Collectors;
 
 public class IntrUngroupCmd implements Command {
 
@@ -28,12 +27,12 @@ public class IntrUngroupCmd implements Command {
         {
             ExecutionResult res = parser.parse(
                             "ungrp " + this.objID)
-                    .getCommand().execute(manager);
+                    .getCmd().execute(manager);
 
             if(res.isExecuted())
             {
                 JOptionPane.showMessageDialog(null,
-                        "Group with id "+res.getMessage()+" ungrouped" ,"Ungroup",
+                        "Group with id "+objID+" ungrouped" ,"Ungroup",
                         JOptionPane.PLAIN_MESSAGE, null);
             }
             else

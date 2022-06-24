@@ -1,30 +1,28 @@
 package is.interpreter.typeconstr;
 
 
-import is.interpreter.Position;
-import is.shapes.model.AbstractGraphicObject;
+import is.shapes.model.GraphicObject;
 import is.shapes.model.RectangleObject;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class RectangleConstr extends TypeConstr {
+public class RectangleConstr implements TypeConstr {
 
-    private Point2D position;
+    private Point2D dim;
 
     public RectangleConstr(Point2D position) {
-        this.position = position;
+        this.dim = position;
     }
 
 
     @Override
     public String toString()
     {
-        return "RectangleConstr["+position+"]";
+        return "RectangleConstr["+ dim +"]";
     }
 
     @Override
-    public AbstractGraphicObject create(Point2D point) {
-        return new RectangleObject(point, position.getX(),position.getY());
+    public GraphicObject create(Point2D point) {
+        return new RectangleObject(point, dim.getX(), dim.getY());
     }
 }

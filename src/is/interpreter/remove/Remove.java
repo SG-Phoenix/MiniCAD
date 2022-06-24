@@ -19,7 +19,6 @@ public class Remove implements IntrCommand {
     @Override
     public ExecutionResult execute(ObjectManager context) {
         try{
-            GraphicObject object = context.getObject(objID);
             removedObj = context.removeObject(objID);
             return new ExecutionResult(true, "Object with id "+objID+" deleted");
         }

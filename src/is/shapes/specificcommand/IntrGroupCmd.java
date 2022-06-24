@@ -29,7 +29,7 @@ public class IntrGroupCmd implements Command {
         {
             ExecutionResult res = parser.parse(
                     "grp " + this.elements.stream().collect(Collectors.joining(",")))
-                    .getCommand().execute(manager);
+                    .getCmd().execute(manager);
 
             if(res.isExecuted())
             {

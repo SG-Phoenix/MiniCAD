@@ -5,7 +5,7 @@ import is.manager.ObjectManager;
 import is.shapes.model.GraphicObject;
 import is.shapes.model.GroupObject;
 
-public class AreaType extends Area {
+public class AreaType implements Area {
 
     private String type;
 

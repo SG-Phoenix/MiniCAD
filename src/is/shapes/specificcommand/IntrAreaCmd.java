@@ -27,7 +27,7 @@ public class IntrAreaCmd implements Command {
         {
             ExecutionResult res = parser.parse(
                             "area "+target)
-                    .getCommand().execute(manager);
+                    .getCmd().execute(manager);
 
             if(res.isExecuted())
             {

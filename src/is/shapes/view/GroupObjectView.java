@@ -21,7 +21,10 @@ public class GroupObjectView implements GraphicObjectView{
 
         for(GraphicObject child : groupObject.getObjects())
         {
-            viewMap.get(child.getClass()).drawGraphicObject(child, g);
+            if(child instanceof GroupObject)
+                drawGraphicObject(child,g);
+            else
+                viewMap.get(child.getClass()).drawGraphicObject(child, g);
         }
     }
 }
