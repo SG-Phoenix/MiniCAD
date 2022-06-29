@@ -33,7 +33,7 @@ public class IntrPerimeterCmd implements Command {
             if(res.isExecuted())
             {
                 JOptionPane.showMessageDialog(null,
-                        "Area: "+res.getMessage() ,"Area "+target.toLowerCase(Locale.ROOT),
+                        "Perimeter: "+res.getMessage() ,"Perimeter "+target.toLowerCase(Locale.ROOT),
                         JOptionPane.PLAIN_MESSAGE, null);
                 return true;
             }

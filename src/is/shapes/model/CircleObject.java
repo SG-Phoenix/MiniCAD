@@ -60,7 +60,7 @@ public class CircleObject extends AbstractGraphicObject {
 
 	@Override
 	public double getArea() {
-		return radius*2*Math.PI;
+		return Math.pow(radius,2)*Math.PI;
 	}
 
 	@Override

@@ -94,6 +94,17 @@ public class GroupObject extends AbstractGraphicObject {
     }
 
     @Override
+    public GroupObject clone() {
+        GroupObject cloned = (GroupObject) super.clone();
+        cloned.position = (Point2D) position.clone();
+        Set clonedList = new HashSet<GraphicObject>();
+        for(GraphicObject g : groupObjects)
+            clonedList.add(((AbstractGraphicObject)g).clone());
+
+        return cloned;
+    }
+
+    @Override
     public double getArea() {
         double totalGroupArea = 0;
         for (GraphicObject object : groupObjects)

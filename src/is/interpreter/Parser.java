@@ -118,7 +118,7 @@ public class Parser {
     {
         symbolCheck(Symbols.NUMBER);
         if(analyzer.getNumber()<0)
-            throw new SyntaxException("Number must be > 0");
+            throw new SyntaxException("Radius must be > 0");
         return new CircleConstr(analyzer.getNumber());
 
     }
@@ -173,7 +173,7 @@ public class Parser {
         symbolCheck(Symbols.NUMBER);
         double scale = analyzer.getNumber();
         if(analyzer.getNumber()<0)
-            throw new SyntaxException("Number must be > 0");
+            throw new SyntaxException("Scale factor must be > 0");
 
         return new Scale(objID,scale);
     }
@@ -258,12 +258,12 @@ public class Parser {
         symbolCheck(Symbols.OPEN_BRACKET);
         symbolCheck(Symbols.NUMBER);
         if(analyzer.getNumber()<0)
-            throw new SyntaxException("Number must be > 0");
+            throw new SyntaxException("X must be > 0");
         double x = analyzer.getNumber();
         symbolCheck(Symbols.COMMA);
         symbolCheck(Symbols.NUMBER);
         if(analyzer.getNumber()<0)
-            throw new SyntaxException("Number must be > 0");
+            throw new SyntaxException("Y must be > 0");
         double y = analyzer.getNumber();
         symbolCheck(Symbols.CLOSE_BRACKET);
 

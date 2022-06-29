@@ -63,6 +63,7 @@ public class ImageObject extends AbstractGraphicObject {
 	public ImageObject clone() {
 		ImageObject cloned = (ImageObject) super.clone();
 		cloned.position = (Point2D) position.clone();
+		cloned.image = image.getScaledInstance(image.getWidth(null), -1, Image.SCALE_DEFAULT);
 		return cloned;
 
 	}
